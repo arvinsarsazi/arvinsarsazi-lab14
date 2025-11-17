@@ -8,11 +8,18 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
 
-    public Client (String name, int port) throws IOException{
+    public Client (String name, int port) {
 
-        sock = new Socket(name, port);
-        out = new PrintWriter(sock.getOutputStream());
-        in  = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        try {
+
+            sock = new Socket(name, port);
+            out = new PrintWriter(sock.getOutputStream());
+            in  = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
 
     public void handshake () {
@@ -21,11 +28,12 @@ public class Client {
         out.flush();
     }
 
-    public String request(String s) throws IOException{
+    public String request(String s) throws IOException {
 
         out.println(s);
         out.flush();
         return in.readLine();
+        
     }
 
     public Socket getSocket() {
@@ -46,7 +54,7 @@ public class Client {
                 sock.close();
             }
         }
-        catch (IOException e) {
+        catch (Exception e) {
 
         }
     }
